@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <p class="eyebrow">Reports</p>
+    <h1>Underwriting Analytics</h1>
+    <p>Monitor approval performance and underwriting trends across income, loan amount, and borrower profiles.</p>
+  </div>
+</div>
+
+<div class="section-card report-cards-grid fade-up">
+  <div class="stat-card report-stat">
+    <span>Total Applications</span>
+    <strong id="reportTotal">0</strong>
+  </div>
+  <div class="stat-card report-stat">
+    <span>Approved Loans</span>
+    <strong id="reportApproved">0</strong>
+  </div>
+  <div class="stat-card report-stat">
+    <span>Rejected Loans</span>
+    <strong id="reportRejected">0</strong>
+  </div>
+  <div class="stat-card report-stat">
+    <span>Approval Rate</span>
+    <strong id="reportRate">0%</strong>
+  </div>
+</div>
+
+<div class="section-card chart-panel fade-up delay">
+  <div class="section-title">Approval Trend</div>
+  <canvas id="trendChart"></canvas>
+</div>
+
+<div class="chart-grid">
+  <div class="section-card chart-card fade-up">
+    <div class="section-title">Income Distribution</div>
+    <canvas id="incomeChart"></canvas>
+  </div>
+  <div class="section-card chart-card fade-up delay">
+    <div class="section-title">Loan Amount Distribution</div>
+    <canvas id="loanChart"></canvas>
+  </div>
+</div>
+
+<div class="chart-grid">
+  <div class="section-card chart-card fade-up">
+    <div class="section-title">Property Area Distribution</div>
+    <canvas id="propertyChart"></canvas>
+  </div>
+  <div class="section-card chart-card fade-up delay">
+    <div class="section-title">Education & Credit History</div>
+    <canvas id="educationChart"></canvas>
+  </div>
+</div>
+{% endblock %}

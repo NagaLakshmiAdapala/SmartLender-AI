@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Lender Underwriting Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="topbar-inner">
+        <div class="brand-block">
+          <div class="brand-mark">
+            <i class="fa-solid fa-building-columns"></i>
+          </div>
+          <div>
+            <div class="brand-title">SmartLender</div>
+            <div class="brand-subtitle">Underwriting Desk</div>
+          </div>
+        </div>
+
+        <div class="nav-links">
+          <a href="/application" class="nav-link {% if active_page == 'application' %}active{% endif %}">Application</a>
+          <a href="/batch" class="nav-link {% if active_page == 'batch' %}active{% endif %}">Batch</a>
+          <a href="/history" class="nav-link {% if active_page == 'history' %}active{% endif %}">History</a>
+          <a href="/reports" class="nav-link {% if active_page == 'reports' %}active{% endif %}">Reports</a>
+          <a href="/model" class="nav-link {% if active_page == 'model' %}active{% endif %}">Model</a>
+        </div>
+
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <div class="lang-selector">
+            <button class="lang-btn" id="langToggle" type="button">
+              <i class="fa-solid fa-globe"></i>
+              <span id="currentLangDisplay">EN</span>
+              <i class="fa-solid fa-chevron-down" style="font-size: 0.8em;"></i>
+            </button>
+            <div class="lang-menu" id="langMenu">
+              <a href="#" data-lang="en">English</a>
+              <a href="#" data-lang="te">Telugu</a>
+              <a href="#" data-lang="hi">Hindi</a>
+              <a href="#" data-lang="ta">Tamil</a>
+              <a href="#" data-lang="kn">Kannada</a>
+              <a href="#" data-lang="ml">Malayalam</a>
+            </div>
+          </div>
+          <button class="dark-toggle" id="darkModeToggle" type="button">
+            <i class="fa-solid fa-moon"></i>
+            <span>Dark Mode</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <main class="page-shell">
+      {% block content %}{% endblock %}
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="/static/js/lang.js"></script>
+    <script src="/static/js/ui.js"></script>
+    <script>
+      const langToggle = document.getElementById('langToggle');
+      const langMenu = document.getElementById('langMenu');
+      if (langToggle && langMenu) {
+        langToggle.addEventListener('click', (e) => {
+          e.stopPropagation();
+          langMenu.classList.toggle('show');
+        });
+        document.addEventListener('click', () => langMenu.classList.remove('show'));
+        langMenu.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const lang = e.target.getAttribute('data-lang');
+            window.appTranslator.setLanguage(lang);
+            langMenu.classList.remove('show');
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

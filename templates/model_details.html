@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <p class="eyebrow">Model</p>
+    <h1>{{ model.name }} Details</h1>
+    <p>{{ model.description }}</p>
+  </div>
+</div>
+
+<div class="section-card model-detail-card fade-up">
+  <div class="section-title">Key Metrics</div>
+  <div class="detail-grid">
+    <div><span>Model Name</span><strong>{{ model.model_name }}</strong></div>
+    <div><span>Selected Best Model</span><strong>{{ model.selected_best_model }}</strong></div>
+    <div><span>Training Accuracy</span><strong>{{ model.training_accuracy }}%</strong></div>
+    <div><span>Testing Accuracy</span><strong>{{ model.testing_accuracy }}%</strong></div>
+    <div><span>Cross Validation Accuracy</span><strong>{{ model.cross_validation_accuracy }}%</strong></div>
+    <div><span>ROC-AUC Score</span><strong>{{ model.roc_auc_score }}%</strong></div>
+    <div><span>Precision</span><strong>{{ model.precision }}%</strong></div>
+    <div><span>Recall</span><strong>{{ model.recall }}%</strong></div>
+    <div><span>F1 Score</span><strong>{{ model.f1_score }}%</strong></div>
+  </div>
+</div>
+
+<div class="section-card detail-grid-two fade-up delay">
+  <div class="info-panel">
+    <div class="section-title">Algorithm Overview</div>
+    <p>{{ model.overview }}</p>
+    <div class="subsection">
+      <h3>Advantages</h3>
+      <ul>
+        {% for item in model.advantages %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+    </div>
+    <div class="subsection">
+      <h3>Disadvantages</h3>
+      <ul>
+        {% if model.disadvantages is string %}
+        <li>{{ model.disadvantages }}</li>
+        {% else %}
+        {% for item in model.disadvantages %}
+        <li>{{ item }}</li>
+        {% endfor %}
+        {% endif %}
+      </ul>
+    </div>
+  </div>
+  <div class="chart-panel">
+    <div class="section-title">Performance Visuals</div>
+    <canvas id="modelPerformanceChart"></canvas>
+  </div>
+</div>
+
+<div class="section-card metrics-grid fade-up">
+  <div class="metric-card">
+    <span>Model Comparison</span>
+    <img class="metric-image" src="{{ url_for('static', filename=model.charts.model_comparison) if model.charts and model.charts.model_comparison else '' }}" alt="Model Comparison Chart" />
+    <p class="metric-explanation">Compares the performance of all trained machine learning algorithms.</p>
+  </div>
+  <div class="metric-card">
+    <span>Confusion Matrix</span>
+    <img class="metric-image" src="{{ url_for('static', filename=model.charts.confusion_matrix) if model.charts and model.charts.confusion_matrix else '' }}" alt="Confusion Matrix" />
+    <p class="metric-explanation">Displays the number of correctly and incorrectly classified loan applications.</p>
+  </div>
+  <div class="metric-card">
+    <span>ROC Curve</span>
+    <img class="metric-image" src="{{ url_for('static', filename=model.charts.roc_curve) if model.charts and model.charts.roc_curve else '' }}" alt="ROC Curve" />
+    <p class="metric-explanation">Shows the model's ability to distinguish approved and rejected loans.</p>
+  </div>
+  <div class="metric-card">
+    <span>Precision-Recall Curve</span>
+    <img class="metric-image" src="{{ url_for('static', filename=model.charts.precision_recall) if model.charts and model.charts.precision_recall else '' }}" alt="Precision-Recall Curve" />
+    <p class="metric-explanation">Highlights how well the model balances precision and recall across outcomes.</p>
+  </div>
+  <div class="metric-card">
+    <span>Feature Importance</span>
+    <img class="metric-image" src="{{ url_for('static', filename=model.charts.feature_importance) if model.charts and model.charts.feature_importance else '' }}" alt="Feature Importance" />
+    <p class="metric-explanation">Highlights the features that most influence loan approval.</p>
+  </div>
+  <div class="metric-card">
+    <span>Calibration Curve</span>
+    <img class="metric-image" src="{{ url_for('static', filename=model.charts.calibration_curve) if model.charts and model.charts.calibration_curve else '' }}" alt="Calibration Curve" />
+    <p class="metric-explanation">Shows how well predicted probabilities match actual outcomes.</p>
+  </div>
+</div>
+{% endblock %}

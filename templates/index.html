@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart Lender Loan Eligibility</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="/static/style.css" />
+  </head>
+  <body>
+    <div class="topbar">
+      <div class="topbar-inner">
+        <div class="brand-block">
+          <div class="brand-mark">
+            <i class="fa-solid fa-building-columns"></i>
+          </div>
+          <div>
+            <div class="brand-title">Smart Lender</div>
+            <div class="brand-subtitle">Underwriting Desk</div>
+          </div>
+        </div>
+
+        <div class="nav-links">
+          <a href="/" class="nav-link active">Application</a>
+          <a href="#" class="nav-link">Batch</a>
+          <a href="#" class="nav-link">History</a>
+          <a href="#" class="nav-link">Reports</a>
+          <a href="#" class="nav-link">Model</a>
+        </div>
+
+        <div style="display: flex; gap: 12px; align-items: center;">
+          <div class="lang-selector">
+            <button class="lang-btn" id="langToggle" type="button">
+              <i class="fa-solid fa-globe"></i>
+              <span id="currentLangDisplay">EN</span>
+              <i class="fa-solid fa-chevron-down" style="font-size: 0.8em;"></i>
+            </button>
+            <div class="lang-menu" id="langMenu">
+              <a href="#" data-lang="en">English</a>
+              <a href="#" data-lang="te">Telugu</a>
+              <a href="#" data-lang="hi">Hindi</a>
+              <a href="#" data-lang="ta">Tamil</a>
+              <a href="#" data-lang="kn">Kannada</a>
+              <a href="#" data-lang="ml">Malayalam</a>
+            </div>
+          </div>
+          <button class="dark-toggle" id="darkModeToggle" type="button">
+            <i class="fa-solid fa-moon"></i>
+            <span>Dark Mode</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <main class="page-shell">
+      <section class="hero-section">
+        <div class="hero-copy">
+          <p class="eyebrow">Smart Lender</p>
+          <h1>Loan Eligibility Prediction</h1>
+          <p>Enter applicant details to check loan approval likelihood.</p>
+        </div>
+      </section>
+
+      <section class="dashboard-grid">
+        <div class="status-panel fade-up">
+          {% if prediction %}
+          <div class="result-card">
+            <div class="status-box">
+              <div class="status-top">
+                <div class="status-icon">
+                  <i class="fa-solid fa-circle-check"></i>
+                </div>
+                <div>
+                  <p class="status-label">Prediction Status</p>
+                  <h2>{{ prediction }}</h2>
+                </div>
+              </div>
+              <div class="probability">
+                <div>
+                  <p class="probability-label">Approval Probability</p>
+                  <p class="probability-value">{{ probability * 100 }}%</p>
+                </div>
+              </div>
+            </div>
+            <div class="speedometer-card">
+              <i class="fa-solid fa-gauge-high"></i>
+              <p class="speedometer-label">Approval Insight</p>
+            </div>
+          </div>
+          {% else %}
+          <div class="result-card empty-card">
+            <div class="status-box">
+              <div class="status-top">
+                <div class="status-icon soft">
+                  <i class="fa-solid fa-lightbulb"></i>
+                </div>
+                <div>
+                  <p class="status-label">Ready to Predict</p>
+                  <h2>Awaiting applicant details</h2>
+                </div>
+              </div>
+              <p class="result-placeholder">Complete the form to see loan eligibility and approval probability in a premium summary card.</p>
+            </div>
+            <div class="speedometer-card placeholder-card">
+              <i class="fa-solid fa-gauge-high"></i>
+              <p class="speedometer-label">Prediction dashboard</p>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="form-panel fade-up delay">
+          <form method="post">
+            <div class="fields-grid">
+              <div class="field-card">
+                <div class="field-label"><i class="fa-solid fa-user"></i>Gender</div>
+                <select name="gender" id="gender">
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                </select>
+              </div>
+
+              <div class="field-card">
+                <div class="field-label"><i class="fa-solid fa-heart"></i>Married</div>
+                <select name="married" id="married">
+                  <option value="Yes">Yes</option>
+                  <option value="No">No</option>
+                </select>
+              </div>
+
+              <div class="field-card">
+                <div class="field-label"><i class="fa-solid fa-user-group"></i>Dependents</div>
+                <select name="dependents" id="dependents">
+                  <option value="0">0</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3+">3+</option>
+                </select>
+              </div>
+
+              <div class="field-card">
+                <div class="field-label"><i class="fa-solid fa-graduation-cap"></i>Education</div>
+                <select name="education" id="education">
+                  <option value="Graduate">Graduate</option>
+                  <option value="Not Graduate">Not Graduate</option>
+                </select>
+              </div>
+
+              <div class="field-card">
+                <div class="field-label"><i class="fa-solid fa-briefcase"></i>Self Employed</div>
+                <select name="self_employed" id="self_employed">
+                  <option value="No">No</option>
+                  <option value="Yes">Yes</option>
+                </select>
+              </div>
+
+              <div class="field-card">
+                <div class="field-label"><i class="fa-solid fa-building"></i>Property Area</div>
+                <select name="property_area" id="property_area">
+                  <option value="Urban">Urban</option>
+                  <option value="Rural">Rural</option>
+                  <option value="Semiurban">Semiurban</option>
+                </select>
+              </div>
+
+              <div class="field-card">
+                <div class="field-label"><i class="fa-solid fa-money-bill-wave"></i>Applicant Income</div>
+                <input type="number" name="applicant_income" id="applicant_income" value="5000" step="0.01" />
+              </div>
+
+              <div class="field-card">
+                <div class="field-label"><i class="fa-solid fa-money-bill"></i>Coapplicant Income</div>
+                <input type="number" name="coapplicant_income" id="coapplicant_income" value="0" step="0.01" />
+              </div>
+
+              <div class="field-card">
+                <div class="field-label"><i class="fa-solid fa-hand-holding-dollar"></i>Loan Amount</div>
+                <input type="number" name="loan_amount" id="loan_amount" value="100" step="0.01" />
+              </div>
+
+              <div class="field-card">
+                <div class="field-label"><i class="fa-solid fa-calendar-days"></i>Loan Term</div>
+                <input type="number" name="loan_term" id="loan_term" value="360" step="1" />
+              </div>
+
+              <div class="field-card full-width">
+                <div class="field-label"><i class="fa-solid fa-shield-check"></i>Credit History</div>
+                <select name="credit_history" id="credit_history">
+                  <option value="1">Good</option>
+                  <option value="0">Bad</option>
+                </select>
+              </div>
+            </div>
+
+            <button type="submit" class="btn-primary">Predict Eligibility</button>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <script src="/static/js/lang.js"></script>
+    <script src="/static/js/ui.js"></script>
+    <script>
+      const langToggle = document.getElementById('langToggle');
+      const langMenu = document.getElementById('langMenu');
+      if (langToggle && langMenu) {
+        langToggle.addEventListener('click', (e) => {
+          e.stopPropagation();
+          langMenu.classList.toggle('show');
+        });
+        document.addEventListener('click', () => langMenu.classList.remove('show'));
+        langMenu.querySelectorAll('a').forEach(link => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const lang = e.target.getAttribute('data-lang');
+            window.appTranslator.setLanguage(lang);
+            langMenu.classList.remove('show');
+          });
+        });
+      }
+    </script>
+  </body>
+</html>

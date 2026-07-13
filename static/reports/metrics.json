@@ -1,0 +1,10 @@
+{
+  "best_model": "Logistic Regression",
+  "training_accuracy": 0.8004,
+  "testing_accuracy": 0.8618,
+  "cross_validation_accuracy": 0.7882,
+  "roc_auc": 0.8548,
+  "precision": 0.84,
+  "recall": 0.9882,
+  "f1_score": 0.9081
+}
