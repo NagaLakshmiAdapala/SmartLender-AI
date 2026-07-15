@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <p class="eyebrow">History</p>
+    <h1>Prediction History</h1>
+    <p>Review past underwriting decisions, filter records, and export history on demand.</p>
+  </div>
+</div>
+
+<div class="section-card history-actions fade-up">
+  <div class="history-search">
+    <input type="search" id="historySearch" placeholder="Search by applicant, status, loan amount..." />
+  </div>
+  <div class="history-filters">
+    <select id="historyStatusFilter">
+      <option value="all">All Status</option>
+      <option value="Eligible">Approved</option>
+      <option value="Not Eligible">Rejected</option>
+    </select>
+    <button type="button" class="btn-secondary" id="exportHistory">Export CSV</button>
+  </div>
+</div>
+
+<div class="section-card table-card fade-up delay">
+  <div class="section-title">History Records</div>
+  <div class="table-wrap">
+    <table class="data-table" id="historyTable">
+      <thead>
+        <tr>
+          <th>Prediction ID</th>
+          <th>Date</th>
+          <th>Applicant Name</th>
+          <th>Prediction</th>
+          <th>Probability</th>
+          <th>Loan Amount</th>
+          <th>Income</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if history_records %}
+          {% for record in history_records %}
+          <tr>
+            <td>{{ record.prediction_id }}</td>
+            <td>{{ record.date }}</td>
+            <td>{{ record.applicant_name }}</td>
+            <td>{{ record.prediction }}</td>
+            <td>{{ record.probability if record.probability is not none else '—' }}</td>
+            <td>{{ record.loan_amount }}</td>
+            <td>{{ record.income }}</td>
+            <td>{{ record.status }}</td>
+            <td>—</td>
+          </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="9">No prediction history yet.</td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+  <div class="pagination" id="historyPagination"></div>
+</div>
+<script>
+  window.historyExportUrl = '/history/export/csv';
+</script>
+{% endblock %}

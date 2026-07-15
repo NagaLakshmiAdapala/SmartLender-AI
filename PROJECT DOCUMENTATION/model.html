@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <p class="eyebrow">Model</p>
+    <h1>Underwriting Model Center</h1>
+    <p>Browse trained models, compare metrics, and open detailed model intelligence pages.</p>
+  </div>
+</div>
+
+<div class="section-card model-grid fade-up">
+  {% for model in models %}
+  <div class="model-card">
+    <div class="model-badge">{{ model.name }}</div>
+    <div class="model-metrics">
+      <div><span>Accuracy</span><strong>{{ model.accuracy }}%</strong></div>
+      <div><span>Precision</span><strong>{{ model.precision }}%</strong></div>
+      <div><span>Recall</span><strong>{{ model.recall }}%</strong></div>
+    </div>
+    <div class="model-tags">
+      <div><i class="fa-solid fa-chart-line"></i>{{ model.roc_auc }} ROC AUC</div>
+      <div><i class="fa-solid fa-check-double"></i>{{ model.f1_score }} F1 Score</div>
+    </div>
+    <div class="model-actions">
+      <a href="/model/{{ model.slug }}" class="btn-secondary">View Details</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

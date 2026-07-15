@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+  <div>
+    <p class="eyebrow">Batch</p>
+    <h1>Batch Loan Predictions</h1>
+    <p>Upload a CSV file, validate the dataset, and run underwriting predictions at scale.</p>
+  </div>
+</div>
+
+<div class="section-card batch-upload-card fade-up">
+  <div class="section-title">Upload CSV for Batch Prediction</div>
+  <p class="panel-copy">Ensure the file includes the required fields and submit to generate approval predictions.</p>
+  <form method="post" enctype="multipart/form-data" class="batch-form">
+    <div class="file-card">
+      <input type="file" id="batchFile" name="batch_file" accept=".csv" />
+      <label for="batchFile">Choose CSV file</label>
+      <span class="file-hint">Required columns: Gender, Married, Dependents, Education, Self_Employed, ApplicantIncome, CoapplicantIncome, LoanAmount, Loan_Amount_Term, Credit_History, Property_Area</span>
+    </div>
+    <button type="submit" class="btn-primary">Run Prediction</button>
+  </form>
+  {% if error_message %}
+  <p class="panel-copy">{{ error_message }}</p>
+  {% endif %}
+  <div class="progress-card" id="batchProgressCard" hidden>
+    <p>Running batch prediction</p>
+    <div class="progress-bar">
+      <div class="progress-fill" id="batchProgressFill"></div>
+    </div>
+  </div>
+</div>
+
+<div class="section-card batch-preview-card fade-up delay">
+  <div class="section-title">Preview Dataset</div>
+  <div id="batchPreview" class="preview-table">No file selected yet.</div>
+</div>
+
+{% if batch_summary %}
+<div class="section-card batch-summary-card fade-up">
+  <div class="section-title">Batch Summary</div>
+  <div class="summary-grid">
+    <div class="stat-card">
+      <span>Total Rows</span>
+      <strong>{{ batch_summary.total }}</strong>
+    </div>
+    <div class="stat-card">
+      <span>Approved</span>
+      <strong>{{ batch_summary.approved }}</strong>
+    </div>
+    <div class="stat-card">
+      <span>Rejected</span>
+      <strong>{{ batch_summary.rejected }}</strong>
+    </div>
+    <div class="stat-card">
+      <span>Approval Rate</span>
+      <strong>{{ batch_summary.approval_rate }}%</strong>
+    </div>
+  </div>
+  <button type="button" class="btn-primary" id="downloadBatchResults">Download Prediction CSV</button>
+  {% if batch_download_url %}
+  <p class="panel-copy"><a href="{{ batch_download_url }}">Download batch predictions</a></p>
+  {% endif %}
+  <div class="preview-table" id="batchResultsTable"></div>
+  <script>
+    window.batchResults = {{ batch_results|tojson }};
+    window.batchDownloadUrl = {{ batch_download_url|tojson }};
+  </script>
+{% endif %}
+
+{% endblock %}
